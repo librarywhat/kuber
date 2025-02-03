@@ -50,6 +50,10 @@ while True:
         time.sleep(5)
         continue
 
+subprocess.check_output("curl -o helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3",shell=True,text=True)
+subprocess.check_output("chmod +x helm.sh",shell=True,text=True)
+subprocess.check_output("./helm.sh",shell=True,text=True)
+
 while True:
     try:
         code = subprocess.check_output("helm repo add metallb https://metallb.github.io/metallb", shell=True, text=True)
@@ -60,13 +64,11 @@ while True:
         time.sleep(5)
 
 
+
+time.sleep(5)
 while True:
     try:
-        ip = subprocess.check_output("kubectl get svc -A | awk '/ingress-nginx-controller/ {print $5}' | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'", shell=True, text=True)
-        log(f"line:57 external_ip exist")
-        time.sleep(5)
-        continue
+        subprocess.check_output("kubectl apply -f /opt/containerd/lib/manifests/metallb-config.yaml", shell=True, text=True)
     except Exception as e:
-        os.system("kubectl apply -f /opt/containerd/lib/manifests/metallb-config.yaml")
-        log(f"line:54 all done")
-        break
+        print(e)
+        time.sleep(5)
