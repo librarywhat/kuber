@@ -11,6 +11,7 @@ while True:
     try:
         ip = subprocess.check_output("kubectl get svc -A | awk '/ingress-nginx-controller/ {print $5}' | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'", shell=True, text=True)
         log(f"line:13 ip: {ip}")
+        ip = ip.replace('\n',"").strip()
 
         with open("/opt/containerd/lib/manifests/metallb-config.yaml", 'w', encoding='utf-8') as f:
             f.write(f"""apiVersion: metallb.io/v1beta1
