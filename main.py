@@ -41,12 +41,20 @@ while True:
         time.sleep(5)
         continue
 
+while True:
+    try:
+        code = subprocess.check_output("helm repo add metallb https://metallb.github.io/metallb", shell=True, text=True)
+        code = subprocess.check_output("helm install my-metallb metallb/metallb --version 0.14.8", shell=True, text=True)
+        log(f"line:48 external_ip exist")
+        break
+    except:
+        time.sleep(5)
 
 
 while True:
     try:
         ip = subprocess.check_output("kubectl get svc -A | awk '/ingress-nginx-controller/ {print $5}' | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'", shell=True, text=True)
-        log(f"line:49 external_ip exist")
+        log(f"line:57 external_ip exist")
         time.sleep(5)
         continue
     except Exception as e:
