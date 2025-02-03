@@ -30,17 +30,17 @@ while True:
         spec:
           ipAddressPools:
           - public-ip-pool""")
-            
+
         log(f"line:34 file done: {ip}")
 
-        
+
         break
-    except subprocess.CalledProcessError as e:
+    except Exception as e:
         log(f"line:39, retry:{counter} error: {e}")
         counter+=1
         time.sleep(5)
         continue
-    
+
 
 
 while True:
@@ -49,7 +49,7 @@ while True:
         log(f"line:49 external_ip exist")
         time.sleep(5)
         continue
-    except subprocess.CalledProcessError as e:
+    except Exception as e:
         os.system("kubectl apply -f /opt/containerd/lib/manifests/metallb-config.yaml")
         log(f"line:54 all done")
         break
